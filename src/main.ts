@@ -17,7 +17,7 @@ async function bootstrap() {
       if (allowed.includes(origin)) return cb(null, true);
       cb(new Error(`CORS: Origin not allowed: ${origin}`));
     },
-    credentials: true,
+    // credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type,Authorization',
   });
