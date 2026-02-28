@@ -7,26 +7,32 @@ import {
 } from 'typeorm';
 import { Movimiento } from '../../movimientos/entities/movimiento.entity';
 
+export enum CierreEstado {
+  ABIERTO = 'abierto',
+  CERRADO = 'cerrado',
+}
+
 @Entity({ schema: 'sales_app', name: 'cierres' })
 export class Cierre {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', unique: true })
   fecha: Date;
 
-  @Column({ type: 'numeric', precision: 12, scale: 2 })
-  totalDeclarado: string;
+  @Column({
+    type: 'enum',
+    enum: CierreEstado,
+    default: CierreEstado.ABIERTO,
+  })
+  estado: CierreEstado;
 
-  @Column({ type: 'numeric', precision: 12, scale: 2 })
-  totalSistema: string;
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
+  createdAt: Date;
 
-  @Column({ type: 'numeric', precision: 12, scale: 2, nullable: true })
-  diferencia?: string;
+  @Column({ name: 'closed_at', type: 'timestamptz', nullable: true })
+  closedAt?: Date | null;
 
   @OneToMany(() => Movimiento, (movimiento) => movimiento.cierre)
   movimientos: Movimiento[];
-
-  @CreateDateColumn({ type: 'timestamptz' })
-  createdAt: Date;
 }
