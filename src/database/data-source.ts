@@ -2,11 +2,11 @@ import 'dotenv/config';
 import { DataSource } from 'typeorm';
 import * as path from 'path';
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = !!process.env.DB_URL;
 const extension = isProduction ? 'js' : 'ts';
 
 const dbCreds = isProduction
-  ? { url: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } }
+  ? { url: process.env.DB_URL, ssl: { rejectUnauthorized: false } }
   : {
       host: process.env.DB_HOST,
       port: Number(process.env.DB_PORT),
