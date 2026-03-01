@@ -3,7 +3,6 @@ import { DataSource } from 'typeorm';
 import * as path from 'path';
 
 const isProduction = !!process.env.DB_URL;
-const extension = isProduction ? 'js' : 'ts';
 
 const dbCreds = isProduction
   ? { url: process.env.DB_URL, ssl: { rejectUnauthorized: false } }
@@ -20,8 +19,8 @@ const dbCreds = isProduction
 export const AppDataSource = new DataSource({
   type: 'postgres',
   ...dbCreds,
-  entities: [path.join(__dirname, `../modules/**/*.entity.${extension}`)],
-  migrations: [path.join(__dirname, `./migrations/*.${extension}`)],
+  entities: [path.join(__dirname, '../modules/**/*.entity.{ts,js}')],
+  migrations: [path.join(__dirname, './migrations/*.{ts,js}')],
   logging: false,
   schema: process.env.DB_SCHEMA,
 });
